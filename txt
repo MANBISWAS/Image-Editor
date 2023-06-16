@@ -1,0 +1,28 @@
+import cv2
+from fpdf import FPDF
+
+def image_to_pdf(image_path, pdf_path):
+    # Load the image using OpenCV
+    image = cv2.imread(image_path)
+    height, width, _ = image.shape
+
+    # Create a PDF object
+    pdf = FPDF(unit="pt", format=(width, height))
+
+    # Add a page to the PDF
+    pdf.add_page()
+
+    # Convert the OpenCV image to RGB and save it to the PDF
+    b, g, r = cv2.split(image)
+    rgb_image = cv2.merge([r, g, b])
+    pdf.image(rgb_image, x=0, y=0)
+
+    # Save the PDF
+    pdf.output(pdf_path)
+
+# Provide the paths of the input image and the output PDF file
+input_image_path = f"uploads/{filename}"
+output_pdf_path = f"static/{filename}"
+
+# Call the function to convert the image to PDF
+image_to_pdf(input_image_path, output_pdf_path)
